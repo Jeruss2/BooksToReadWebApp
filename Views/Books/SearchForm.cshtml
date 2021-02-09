@@ -1,0 +1,62 @@
+﻿@model BooksToReadWebApp.Models.BooksModel
+
+@{
+    ViewBag.Title = "SearchForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SearchForm</h2>
+
+
+@using (Html.BeginForm("SearchForTitle", "Books"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="searchPhrase">Search by the Title</label>
+                <input type="text" name="searchPhrase" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@using (Html.BeginForm("SearchForAuthors", "Books"))
+
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr/>
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="searchPhrase1">Search by Authors</label>
+                <input type="text" name="searchPhrase1" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}}
+
