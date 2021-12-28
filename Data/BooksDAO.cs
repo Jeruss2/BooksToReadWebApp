@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using BooksToReadWebApp.Models;
 
 namespace BooksToReadWebApp.Data
@@ -232,71 +233,70 @@ namespace BooksToReadWebApp.Data
             }
 
         }
-         public List<MyListModel> FetchAllList()
-        {
-            List<MyListModel> returnList = new List<MyListModel>();
+        // public List<MyListModel> FetchAllList()
+        //{
+        //    List<MyListModel> returnList = new List<MyListModel>();
 
-            // access the database
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string sqlQuery = "Select * from dbo.MyList";
+        //    // access the database
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        string sqlQuery = "Select * from dbo.MyList";
 
-                SqlCommand command = new SqlCommand(sqlQuery, connection);
+        //        SqlCommand command = new SqlCommand(sqlQuery, connection);
 
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+        //        connection.Open();
+        //        SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        //create a new book object. Add it to the list to return.
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                //create a new book object. Add it to the list to return.
 
-                        MyListModel list = new MyListModel();
-                        list.id = reader.GetInt32(0);
-                        list.title = reader.GetString(1);
-                        list.authors = reader.GetString(2);
-
-
-                        returnList.Add(list);
-                    }
-                }
-            }
-
-            return returnList;
-        }
-
-        public int AddList(MyListModel myList)
-         {
-             // if bookmodel.id <= 1 then create
-             //if bookmodel.id > i then update
-
-             // access the database
-             using (SqlConnection connection = new SqlConnection(connectionString))
-             {
-                 string sqlQuery = "";
-
-                 sqlQuery = myList.id <= 0
-                     ? "Insert into dbo.MyList Values(@title, @authors)"
-                     : "Update dbo.MyList set title = @title, authors = @authors where id = @id";
+        //                MyListModel list = new MyListModel();
+        //                list.id = reader.GetInt32(0);
+        //                list.title = reader.GetString(1);
+        //                list.authors = reader.GetString(2);
 
 
-                 //associate @title with title parameter
+        //                returnList.Add(list);
+        //            }
+        //        }
+        //    }
 
-                 SqlCommand command = new SqlCommand(sqlQuery, connection);
+        //    return returnList;
+        //}
 
-                 command.Parameters.Add("@id", System.Data.SqlDbType.VarChar, 1000).Value = myList.id;
-                 command.Parameters.Add("@title", System.Data.SqlDbType.VarChar, 1000).Value = myList.title;
-                 command.Parameters.Add("@authors", System.Data.SqlDbType.VarChar, 1000).Value = myList.authors;
+        //public int AddList(MyListModel myList)
+        // {
+        //     // if bookmodel.id <= 1 then create
+        //     //if bookmodel.id > i then update
 
-                 connection.Open();
-                 int newid = command.ExecuteNonQuery();
+        //     // access the database
+        //     using (SqlConnection connection = new SqlConnection(connectionString))
+        //     {
+        //         string sqlQuery = "";
 
-                 return newid;
+        //         sqlQuery = "Insert into dbo.MyList Select @title, @authors from dbo.BooksRead where id = @id";
+                     
 
-             }
+
+        //         //associate @title with title parameter
+
+        //         SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+        //         command.Parameters.Add("@id", System.Data.SqlDbType.VarChar, 1000).Value = myList.id;
+        //         command.Parameters.Add("@title", System.Data.SqlDbType.VarChar, 1000).Value = myList.title;
+        //         command.Parameters.Add("@authors", System.Data.SqlDbType.VarChar, 1000).Value = myList.authors;
+
+        //         connection.Open();
+        //         int newid = command.ExecuteNonQuery();
+
+        //         return newid;
+
+        //     }
 
 
-         }
+        // }
     }
 }

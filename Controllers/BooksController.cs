@@ -10,14 +10,17 @@ namespace BooksToReadWebApp.Controllers
 {
     public class BooksController : Controller
     {
+        private BooksDAO _booksDao;
+
+        public BooksController()
+        {
+            _booksDao = new BooksDAO();
+        }
         // GET: Books
         public ActionResult Index()
         {
-            
 
-            BooksDAO booksDao = new BooksDAO();
-
-            List<BooksModel> books = booksDao.FetchAll();
+            List<BooksModel> books = _booksDao.FetchAll();
 
             return View("Index", books);
         }
@@ -25,8 +28,7 @@ namespace BooksToReadWebApp.Controllers
 
         public ActionResult Details(int id)
         {
-            BooksDAO booksDao = new BooksDAO();
-            BooksModel booksModel = booksDao.FetchOne(id);
+            BooksModel booksModel = _booksDao.FetchOne(id);
 
             return View("Details", booksModel);
         }
@@ -34,7 +36,12 @@ namespace BooksToReadWebApp.Controllers
 
         public ActionResult Create()
         {
-            return View("BookForm");
+            
+            BooksModel bm = new BooksModel();
+
+
+
+            return View("BookForm", bm);
         }
 
         [HttpPost]
@@ -99,25 +106,31 @@ namespace BooksToReadWebApp.Controllers
             return View("Index", searchResults);
         }
 
-        public ActionResult MyList()
-        {
-
-            BooksDAO booksDao = new BooksDAO();
-
-            List<MyListModel> mylist = booksDao.FetchAllList();
-
-            return View("MyList", mylist);
-        }
-
-        //public ActionResult AddList(int id)
+        //public ActionResult MyList()
         //{
+
         //    BooksDAO booksDao = new BooksDAO();
-        //    booksDao.AddList(id);
 
-        //    List<MyListModel> addlist = booksDao.FetchAllList();
+        //    List<MyListModel> mylist = booksDao.FetchAllList();
 
+        //    return View("MyList", mylist);
+        //}
 
-        //    return View("MyList", addlist);
+        //public void AddList(int id)
+        //{
+        //    //BooksDAO booksDao = new BooksDAO();
+
+        //    var book = _booksDao.FetchOne(id);
+
+            //data acces emthod for adding a single book
+
+            //add book - either with refernec to primary key or copy
+
+            //pull back all books for user
+
+            //return new view
+
+            //return View("MyList", addlist);
         //}
 
         //[HttpPost]
